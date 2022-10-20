@@ -8,7 +8,7 @@ namespace Ashtray.Model
 {
     public class AshtrayParameters
     {
-        private Dictionary<ParameterType, String> _errors;
+        private Dictionary<ParameterType, String> _errors = new Dictionary<ParameterType, String>();
 
         private double _upperDiametr;
         
@@ -22,6 +22,11 @@ namespace Ashtray.Model
 
         private ParameterValidator _parameterValidator = new ParameterValidator();
 
+        public Dictionary<ParameterType, String> getErrorsMap()
+        {
+            return _errors;
+        }
+
         public double UpperDiametr
         {
             get
@@ -32,9 +37,7 @@ namespace Ashtray.Model
             {
                 if (value < 80 || value > 100)
                 {
-                    throw new ArgumentException(
-                        $"The upper diametr must be in range from 80 to 100"
-                        + $" But was {value}");
+                    throw new ArgumentException("Верхний даиметр должен находиться в диапазоне от 80 до 100" + '\n');
                 }
                 this._upperDiametr = value;
             }
@@ -48,8 +51,11 @@ namespace Ashtray.Model
             }
             set
             {
+                if (value < 50 || value > 70)
+                {
+                    throw new ArgumentException("Нижний даиметр должен находиться в диапазоне от 50 до 75" + '\n');
+                }
                 this._lowerDiametr = value;
-
             }
         }
 
@@ -61,8 +67,11 @@ namespace Ashtray.Model
             }
             set
             {
+                if (value < 35 || value > 65) 
+                {
+                    throw new ArgumentException("Высота должна находиться в диапазоне от 35 до 65" + '\n');
+                }
                 this._height = value;
-
             }
         }
 
@@ -74,8 +83,11 @@ namespace Ashtray.Model
             }
             set
             {
+                if (value < 7 || value > 10)
+                {
+                    throw new ArgumentException("Толщина дна должна находиться в диапазоне от 7 до 10" + '\n');
+                }
                 this._bottomThickness = value;
-
             }
         }
 
@@ -87,8 +99,11 @@ namespace Ashtray.Model
             }
             set
             {
+                if (value < 5 || value > 7)
+                {
+                    throw new ArgumentException("Толщина стенок должна находиться в диапазоне от 5 до 7" + '\n');
+                }
                 this._wallThickness = value;
-
             }
         }
     }
