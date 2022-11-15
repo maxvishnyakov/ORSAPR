@@ -128,7 +128,7 @@ namespace Ashtray.View
             this.WallThicknessTextBox.Size = new System.Drawing.Size(164, 30);
             this.WallThicknessTextBox.TabIndex = 10;
             this.WallThicknessTextBox.Text = "5";
-            this.WallThicknessTextBox.TextChanged += new System.EventHandler(this.wallThickness_TextChanged);
+            this.WallThicknessTextBox.TextChanged += new System.EventHandler(this.FindError);
             // 
             // HeightTextBox
             // 
@@ -137,7 +137,7 @@ namespace Ashtray.View
             this.HeightTextBox.Size = new System.Drawing.Size(164, 30);
             this.HeightTextBox.TabIndex = 9;
             this.HeightTextBox.Text = "35";
-            this.HeightTextBox.TextChanged += new System.EventHandler(this.height_TextChanged);
+            this.HeightTextBox.TextChanged += new System.EventHandler(this.FindError);
             // 
             // BottomThicknessTextBox
             // 
@@ -146,7 +146,7 @@ namespace Ashtray.View
             this.BottomThicknessTextBox.Size = new System.Drawing.Size(164, 30);
             this.BottomThicknessTextBox.TabIndex = 8;
             this.BottomThicknessTextBox.Text = "7";
-            this.BottomThicknessTextBox.TextChanged += new System.EventHandler(this.bottomThickness_TextChanged);
+            this.BottomThicknessTextBox.TextChanged += new System.EventHandler(this.FindError);
             // 
             // LowerDiametrTextBox
             // 
@@ -155,7 +155,7 @@ namespace Ashtray.View
             this.LowerDiametrTextBox.Size = new System.Drawing.Size(164, 30);
             this.LowerDiametrTextBox.TabIndex = 7;
             this.LowerDiametrTextBox.Text = "50";
-            this.LowerDiametrTextBox.TextChanged += new System.EventHandler(this.lowerDiametr_TextChanged);
+            this.LowerDiametrTextBox.TextChanged += new System.EventHandler(this.FindError);
             // 
             // UpperDiametrTextBox
             // 
@@ -164,7 +164,7 @@ namespace Ashtray.View
             this.UpperDiametrTextBox.Size = new System.Drawing.Size(164, 30);
             this.UpperDiametrTextBox.TabIndex = 6;
             this.UpperDiametrTextBox.Text = "70";
-            this.UpperDiametrTextBox.TextChanged += new System.EventHandler(this.upperDiametr_TextChanged);
+            this.UpperDiametrTextBox.TextChanged += new System.EventHandler(this.FindError);
             // 
             // label1
             // 
@@ -229,7 +229,7 @@ namespace Ashtray.View
             this.button1.TabIndex = 6;
             this.button1.Text = "Построить пепельницу";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.buildButton_Click);
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 

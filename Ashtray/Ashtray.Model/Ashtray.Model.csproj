@@ -41,9 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AshtrayParameters.cs" />
+    <Compile Include="AshtrayValidator.cs" />
+    <Compile Include="Parameter.cs" />
     <Compile Include="ParameterType.cs" />
-    <Compile Include="ParameterValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

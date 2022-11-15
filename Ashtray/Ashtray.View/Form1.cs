@@ -1,140 +1,156 @@
-﻿using Ashtray.Model;
-using System;
+﻿using System;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Collections.Generic;
+using Ashtray.Model;
+using System.Linq;
 
 namespace Ashtray.View
 {
     public partial class Form1 : Form
     {
-        private AshtrayParameters _ashtrayParameters = new AshtrayParameters();
+        /// <summary>
+        /// Словарь Тип параметра-TextBox.
+        /// </summary>
+        private readonly Dictionary<ParameterType, TextBox> _parameterToTextBox;
+
+        private readonly AshtrayValidator _ashtrayValidator;
 
         /// <summary>
-        /// Константа для корректного цвета. 
+        /// Конструктор основной формы.
         /// </summary>
-        private readonly Color _correctColor = Color.White;
-
-        /// <summary>
-        /// Константа для цвета ошибки.
-        /// </summary>
-        private readonly Color _errorColor = Color.LightPink;
-
-        private String _validationError = "";
         public Form1()
         {
             InitializeComponent();
-        }
-
-        private void clearErrorsMapByParameter(ParameterType type)
-        {
-            if (_ashtrayParameters.getErrorsMap().ContainsKey(type))
+            _ashtrayValidator = new AshtrayValidator();
+            _parameterToTextBox = new Dictionary<ParameterType, TextBox>
             {
-                _ashtrayParameters.getErrorsMap().Remove(type);
-            }
+                {ParameterType.BottomThickness, BottomThicknessTextBox},
+                {ParameterType.Height, HeightTextBox},
+                {ParameterType.LowerDiametr, LowerDiametrTextBox},
+                {ParameterType.UpperDiametr, UpperDiametrTextBox},
+                {ParameterType.WallThickness, WallThicknessTextBox}
+            };
+
+            // Добавление всем TextBox события, когда изменятся текст.
+
+            BottomThicknessTextBox.KeyPress += BanCharacterInput;
+            HeightTextBox.KeyPress += BanCharacterInput;
+            LowerDiametrTextBox.KeyPress += BanCharacterInput;
+            UpperDiametrTextBox.KeyPress += BanCharacterInput;
+            WallThicknessTextBox.KeyPress += BanCharacterInput;
+
+            BottomThicknessTextBox.Text = _ashtrayValidator.Parameters[ParameterType.BottomThickness].Value.ToString();
+            HeightTextBox.Text = _ashtrayValidator.Parameters[ParameterType.Height].Value.ToString();
+            LowerDiametrTextBox.Text = _ashtrayValidator.Parameters[ParameterType.LowerDiametr].Value.ToString();
+            UpperDiametrTextBox.Text = _ashtrayValidator.Parameters[ParameterType.UpperDiametr].Value.ToString();
+            WallThicknessTextBox.Text = _ashtrayValidator.Parameters[ParameterType.WallThickness].Value.ToString();
+
+            BottomThicknessTextBox.TextChanged += FindError;
+            HeightTextBox.KeyPress += FindError;
+            LowerDiametrTextBox.KeyPress += FindError;
+            UpperDiametrTextBox.KeyPress += FindError;
+            WallThicknessTextBox.KeyPress += FindError;
         }
 
-        private void upperDiametr_TextChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Проверка введенных значений в режиме реального времени.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">Изменение текста в TextBox.</param>
+        private void FindError(object sender, EventArgs e)
         {
+            foreach (var keyValue in _parameterToTextBox)
+            {
+                keyValue.Value.BackColor = Color.White;
+            }
+
             try
             {
-                clearErrorsMapByParameter(ParameterType.UpperDiametr);
-                _ashtrayParameters.UpperDiametr = Convert.ToDouble(UpperDiametrTextBox.Text);
-                UpperDiametrTextBox.BackColor = _correctColor;
-            }
-            catch(Exception exception)
-            {
-                UpperDiametrTextBox.BackColor = _errorColor;
-                _ashtrayParameters.getErrorsMap().Add(ParameterType.UpperDiametr, exception.Message);
-            }
-        }
+                _ashtrayValidator.Errors.Clear();
+                int bottomThickness = int.Parse(BottomThicknessTextBox.Text);
+                int height = int.Parse(HeightTextBox.Text);
+                int lowerDiametr = int.Parse(LowerDiametrTextBox.Text);
+                int upperDiametr = int.Parse(UpperDiametrTextBox.Text);
+                int wallThickness = int.Parse(WallThicknessTextBox.Text);
+                _ashtrayValidator.SetParameters(bottomThickness, height, lowerDiametr, upperDiametr, wallThickness);
 
-        private void height_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                clearErrorsMapByParameter(ParameterType.Height);
-                _ashtrayParameters.Height = Convert.ToDouble(HeightTextBox.Text);
-                HeightTextBox.BackColor = _correctColor;
+                foreach (var keyValue in _ashtrayValidator.Errors)
+                {
+                    _parameterToTextBox[keyValue.Key].BackColor = Color.LightPink;
+                }
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                HeightTextBox.BackColor = _errorColor;
-                _ashtrayParameters.getErrorsMap().Add(ParameterType.Height, exception.Message);
-            }
-        }
-
-        private void lowerDiametr_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                clearErrorsMapByParameter(ParameterType.LowerDiametr);
-                _ashtrayParameters.LowerDiametr = Convert.ToDouble(LowerDiametrTextBox.Text);
-                LowerDiametrTextBox.BackColor = _correctColor;
-            }
-            catch (Exception exception)
-            {
-                LowerDiametrTextBox.BackColor = _errorColor;
-                _ashtrayParameters.getErrorsMap().Add(ParameterType.LowerDiametr, exception.Message);
-            }
-        }
-
-        private void bottomThickness_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                clearErrorsMapByParameter(ParameterType.BottomThickness);
-                _ashtrayParameters.BottomThickness = Convert.ToDouble(BottomThicknessTextBox.Text);
-                BottomThicknessTextBox.BackColor = _correctColor;
-            }
-            catch (Exception exception)
-            {
-                BottomThicknessTextBox.BackColor = _errorColor;
-                _ashtrayParameters.getErrorsMap().Add(ParameterType.BottomThickness, exception.Message);
-            }
-        }
-
-        private void wallThickness_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                clearErrorsMapByParameter(ParameterType.WallThickness);
-                _ashtrayParameters.WallThickness = Convert.ToDouble(WallThicknessTextBox.Text);
-                WallThicknessTextBox.BackColor = _correctColor;
-            }
-            catch (Exception exception)
-            {
-                WallThicknessTextBox.BackColor = _errorColor;
-                _ashtrayParameters.getErrorsMap().Add(ParameterType.WallThickness, exception.Message);
-            }
-        }
-
-        private void buildButton_Click(object sender, EventArgs e)
-        {
-            if (CheckFormOnErrors())
-            {
-
+                Console.WriteLine(ex);
+                CheckEmptyTextBox();
             }
         }
 
         /// <summary>
-        /// Проверка на наличие ошибок в форме.
+        /// Поиск пустых TextBox.
         /// </summary>
-        private bool CheckFormOnErrors()
+        /// <returns>Возвращает true, если нет пустых ячеек,
+        /// возвращает false в обратном случае.</returns>
+        private bool CheckEmptyTextBox()
         {
-            if (_ashtrayParameters.getErrorsMap().Count != 0)
+            var counter = 0;
+            foreach (var keyValue in _parameterToTextBox.Where
+                         (keyValue => keyValue.Value.Text == string.Empty))
             {
-                foreach(var error in _ashtrayParameters.getErrorsMap())
+                counter += 1;
+                keyValue.Value.BackColor = Color.LightPink;
+            }
+
+            return counter == 0;
+        }
+
+        /// <summary>
+        ///  Запрет ввода символов и больше одной точки в число.
+        /// </summary>
+        /// <param name="sender">TextBox.</param>
+        /// <param name="e">Нажатие на клавишу клавиатуры.</param>
+        private static void BanCharacterInput(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)
+                && !((e.KeyChar == ',') &&
+                (((TextBox)sender).Text.IndexOf
+                    (",", StringComparison.Ordinal) == -1)))
+            {
+                e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// Построение по введенным параметрам пепельницы.
+        /// </summary>
+        /// <param name="sender">Кнопка.</param>
+        /// <param name="e">Нажатие на кнопку.</param>
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (CheckEmptyTextBox())
+            {
+                if (_ashtrayValidator.Errors.Count > 0)
                 {
-                    _validationError = _validationError + error.Value;
+                    var message = string.Empty;
+                    foreach (var keyValue in _ashtrayValidator.Errors)
+                    {
+                        message += "• " + keyValue.Value + "\n" + "\n";
+                    }
+
+                    MessageBox.Show(message, @"Неверно введены данные!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                MessageBox.Show(_validationError);
-                _validationError = "";
-                return false;
+                else
+                {
+
+                }
             }
             else
             {
-                _validationError = "";
-                return true;
+                MessageBox.Show(
+                    @"Ошибка при построении! Проверьте введенные данные.",
+                    @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
