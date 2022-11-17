@@ -22,13 +22,13 @@ namespace Ashtray.Model
             Parameters = new Dictionary<ParameterType, Parameter>()
             {
                 { ParameterType.BottomThickness,
-                new Parameter(8, 7, 10, "Толщина дна", ParameterType.BottomThickness, Errors) },
+                new Parameter(7, 7, 10, "Толщина дна", ParameterType.BottomThickness, Errors) },
                 { ParameterType.Height,
-                new Parameter(4, 35, 60, "Высота", ParameterType.Height, Errors) },
+                new Parameter(35, 35, 60, "Высота", ParameterType.Height, Errors) },
                 { ParameterType.LowerDiametr,
-                new Parameter(5, 50, 70, "Диаметр дна снизу", ParameterType.LowerDiametr, Errors) },
+                new Parameter(50, 50, 70, "Диаметр дна снизу", ParameterType.LowerDiametr, Errors) },
                 { ParameterType.UpperDiametr,
-                new Parameter(5, 80, 100, "Диаметр верхней части", ParameterType.UpperDiametr, Errors) },
+                new Parameter(80, 80, 100, "Диаметр верхней части", ParameterType.UpperDiametr, Errors) },
                 { ParameterType.WallThickness,
                 new Parameter(6, 5, 7, "Толщина стенок", ParameterType.WallThickness, Errors) },
             };
@@ -48,11 +48,16 @@ namespace Ashtray.Model
             int upperDiametr, int wallThickness)
         {
             Errors.Clear();
-            CheckRange(bottomThickness, 7, 10, ParameterType.BottomThickness, "Толщина дна");
-            CheckRange(height, 35, 60, ParameterType.Height, "Высота");
-            CheckRange(lowerDiametr, 50, 70, ParameterType.LowerDiametr, "Диаметр дна снизу");
-            CheckRange(upperDiametr, 80, 100, ParameterType.UpperDiametr, "Диаметр верхней части");
-            CheckRange(wallThickness, 5, 7, ParameterType.WallThickness, "Толщина стенок");
+            Parameters[ParameterType.BottomThickness].Value = bottomThickness;
+            Parameters[ParameterType.Height].Value = height;
+            Parameters[ParameterType.LowerDiametr].Value = lowerDiametr;
+            Parameters[ParameterType.UpperDiametr].Value = upperDiametr;
+            Parameters[ParameterType.WallThickness].Value = wallThickness;
+            /*CheckParametersRelationship(bottomThickness, 100, ParameterType.BottomThickness, "Толщина дна");
+            CheckParametersRelationship(height, 100, ParameterType.Height, "Высота");
+            CheckParametersRelationship(lowerDiametr, 100, ParameterType.LowerDiametr, "Диаметр дна снизу");
+            CheckParametersRelationship(upperDiametr, 100, ParameterType.UpperDiametr, "Диаметр верхней части");
+            CheckParametersRelationship(wallThickness, 100, ParameterType.WallThickness, "Толщина стенок");*/
             /*CheckParametersRelationship(height, bottomThickness * 6, ParameterType.Height,
                 "Высота пепельницы должна быть больше толщины дна не более чем в 6 раз.");
             
@@ -91,13 +96,17 @@ namespace Ashtray.Model
         private void CheckParametersRelationship(int value, int mainParameter,
             ParameterType parameterType, string errorMessage)
         {
-            if (value > mainParameter)
+            Parameters[parameterType].Value = value;
+            if (!Errors.ContainsKey(parameterType))
             {
-                Errors.Add(parameterType, errorMessage);
-            }
-            else
-            {
-                Parameters[parameterType].Value = value;
+                if (value > mainParameter)
+                {
+                    Errors.Add(parameterType, errorMessage);
+                }
+                else
+                {
+                    Parameters[parameterType].Value = value;
+                }
             }
         }
     }

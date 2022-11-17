@@ -75,14 +75,12 @@ namespace Ashtray.Model
             get => _value;
             set
             {
-                /*if (CheckRange(value))
-                {*/
+                if (CheckRange(value))
+                {
                     _value = value;
-               /* }*/
+                }
             }
         }
-
-
 
         /// <summary>
         /// Проверка принадлежности диапазону введенного параметра.
@@ -99,9 +97,6 @@ namespace Ashtray.Model
             _errors.Add(_parameterType, _maxErrorMessage);
             return false;
         }
-
-
-
 
         /// <summary>
         /// Проверка на равенство объектов класса.

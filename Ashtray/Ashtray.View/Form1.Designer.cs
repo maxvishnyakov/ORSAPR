@@ -127,7 +127,6 @@ namespace Ashtray.View
             this.WallThicknessTextBox.Name = "WallThicknessTextBox";
             this.WallThicknessTextBox.Size = new System.Drawing.Size(164, 30);
             this.WallThicknessTextBox.TabIndex = 10;
-            this.WallThicknessTextBox.Text = "5";
             this.WallThicknessTextBox.TextChanged += new System.EventHandler(this.FindError);
             // 
             // HeightTextBox
@@ -136,7 +135,6 @@ namespace Ashtray.View
             this.HeightTextBox.Name = "HeightTextBox";
             this.HeightTextBox.Size = new System.Drawing.Size(164, 30);
             this.HeightTextBox.TabIndex = 9;
-            this.HeightTextBox.Text = "35";
             this.HeightTextBox.TextChanged += new System.EventHandler(this.FindError);
             // 
             // BottomThicknessTextBox
@@ -145,7 +143,6 @@ namespace Ashtray.View
             this.BottomThicknessTextBox.Name = "BottomThicknessTextBox";
             this.BottomThicknessTextBox.Size = new System.Drawing.Size(164, 30);
             this.BottomThicknessTextBox.TabIndex = 8;
-            this.BottomThicknessTextBox.Text = "7";
             this.BottomThicknessTextBox.TextChanged += new System.EventHandler(this.FindError);
             // 
             // LowerDiametrTextBox
@@ -154,7 +151,6 @@ namespace Ashtray.View
             this.LowerDiametrTextBox.Name = "LowerDiametrTextBox";
             this.LowerDiametrTextBox.Size = new System.Drawing.Size(164, 30);
             this.LowerDiametrTextBox.TabIndex = 7;
-            this.LowerDiametrTextBox.Text = "50";
             this.LowerDiametrTextBox.TextChanged += new System.EventHandler(this.FindError);
             // 
             // UpperDiametrTextBox
@@ -163,7 +159,6 @@ namespace Ashtray.View
             this.UpperDiametrTextBox.Name = "UpperDiametrTextBox";
             this.UpperDiametrTextBox.Size = new System.Drawing.Size(164, 30);
             this.UpperDiametrTextBox.TabIndex = 6;
-            this.UpperDiametrTextBox.Text = "70";
             this.UpperDiametrTextBox.TextChanged += new System.EventHandler(this.FindError);
             // 
             // label1

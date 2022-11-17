@@ -67,7 +67,6 @@ namespace Ashtray.View
 
             try
             {
-                _ashtrayValidator.Errors.Clear();
                 int bottomThickness = int.Parse(BottomThicknessTextBox.Text);
                 int height = int.Parse(HeightTextBox.Text);
                 int lowerDiametr = int.Parse(LowerDiametrTextBox.Text);
@@ -79,6 +78,7 @@ namespace Ashtray.View
                 {
                     _parameterToTextBox[keyValue.Key].BackColor = Color.LightPink;
                 }
+
             }
             catch (Exception ex)
             {
@@ -93,15 +93,23 @@ namespace Ashtray.View
         /// <returns>Возвращает true, если нет пустых ячеек,
         /// возвращает false в обратном случае.</returns>
         private bool CheckEmptyTextBox()
-        {
+       {
             var counter = 0;
-            foreach (var keyValue in _parameterToTextBox.Where
-                         (keyValue => keyValue.Value.Text == string.Empty))
+            foreach (var keyValue in _parameterToTextBox)
             {
-                counter += 1;
-                keyValue.Value.BackColor = Color.LightPink;
+                if (keyValue.Value.Text == string.Empty)
+                {
+                    counter += 1;
+                    keyValue.Value.BackColor = Color.LightPink;
+                }
+                else if (_ashtrayValidator.Errors.ContainsKey(keyValue.Key))
+                {
+                    if (_ashtrayValidator.Errors[keyValue.Key] != string.Empty)
+                    { 
+                        keyValue.Value.BackColor = Color.LightPink;
+                    }
+                }
             }
-
             return counter == 0;
         }
 
