@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace Ashtray.View
 {
+	// TODO: XML
     public partial class Form1 : Form
     {
         /// <summary>
@@ -63,27 +64,28 @@ namespace Ashtray.View
         /// <param name="e">Изменение текста в TextBox.</param>
         private void FindError(object sender, EventArgs e)
         {
-            foreach (var keyValue in _parameterToTextBox)
-            {
-                keyValue.Value.BackColor = Color.White;
-            }
+	        foreach (var keyValue in _parameterToTextBox)
+	        {
+		        keyValue.Value.BackColor = Color.White;
+	        }
 
-            _ashtrayValidator.SetParameters(BottomThicknessTextBox.Text, HeightTextBox.Text, 
-                LowerDiametrTextBox.Text, UpperDiametrTextBox.Text, WallThicknessTextBox.Text);
+	        _ashtrayValidator.SetParameters(BottomThicknessTextBox.Text, HeightTextBox.Text,
+		        LowerDiametrTextBox.Text, UpperDiametrTextBox.Text, WallThicknessTextBox.Text);
 
-                foreach (var keyValue in _ashtrayValidator.Errors)
-                {
-                    _parameterToTextBox[keyValue.Key].BackColor = Color.LightPink;
-                }
+	        foreach (var keyValue in _ashtrayValidator.Errors)
+	        {
+		        _parameterToTextBox[keyValue.Key].BackColor = Color.LightPink;
+	        }
 
-            
-            /*catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                CheckEmptyTextBox();
-            }*/
+
+	        /*catch (Exception ex)
+	        {
+	            Console.WriteLine(ex);
+	            CheckEmptyTextBox();
+	        }*/
         }
 
+        // TODO: Нужен? Убрать
         private void checkParameterIsEmptyAndUpdateState(String textParameter, ParameterType parameterType, int value, string message)
         {
             string error = " не должно быть пустым";
@@ -106,6 +108,7 @@ namespace Ashtray.View
             var counter = 0;
             foreach (var keyValue in _parameterToTextBox)
             {
+	            // TODO: Можно под одно условие
                 if (keyValue.Value.Text == string.Empty)
                 {
                     counter += 1;
@@ -152,7 +155,8 @@ namespace Ashtray.View
                     var message = string.Empty;
                     foreach (var keyValue in _ashtrayValidator.Errors)
                     {
-                        message += "• " + keyValue.Value + "\n" + "\n";
+                        // TODO: Селать в одну строку $
+	                    message += "• " + keyValue.Value + "\n" + "\n";
                     }
 
                     MessageBox.Show(message, @"Неверно введены данные!",

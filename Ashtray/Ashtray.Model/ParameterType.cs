@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace Ashtray.Model
 {
+    // TODO: XML
     public enum ParameterType
     {
+        // TODO: Грам ошибка
         UpperDiametr,
-        LowerDiametr,
+		// TODO: Грам ошибка
+		LowerDiametr,
         Height,
         BottomThickness,
         WallThickness

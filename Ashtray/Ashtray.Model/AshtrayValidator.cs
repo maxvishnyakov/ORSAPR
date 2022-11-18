@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Ashtray.Model
 {
-  
+  // TODO: XML
+  // TODO: Переименовать
     public class AshtrayValidator
     {
         public Dictionary<ParameterType, Parameter> Parameters { get; set; }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ashtray.Model
 {
+    // TODO: XML
     public class Parameter : IEquatable<Parameter> 
     {
         /// <summary>
@@ -93,9 +94,14 @@ namespace Ashtray.Model
                 _errors.Add(_parameterType, _minErrorMessage);
                 return false;
             }
-            if (!(value > _maxValue)) return true;
-            _errors.Add(_parameterType, _maxErrorMessage);
-            return false;
+
+            if (value > _maxValue)
+            {
+                _errors.Add(_parameterType, _maxErrorMessage);
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
