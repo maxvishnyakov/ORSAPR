@@ -40,17 +40,20 @@ namespace Ashtray.View
             UpperDiametrTextBox.KeyPress += BanCharacterInput;
             WallThicknessTextBox.KeyPress += BanCharacterInput;
 
+            BottomThicknessTextBox.TextChanged += FindError;
+            HeightTextBox.KeyPress += FindError;
+            LowerDiametrTextBox.KeyPress += FindError;
+            UpperDiametrTextBox.KeyPress += FindError;
+            WallThicknessTextBox.KeyPress += FindError;
+
+
             BottomThicknessTextBox.Text = _ashtrayValidator.Parameters[ParameterType.BottomThickness].Value.ToString();
             HeightTextBox.Text = _ashtrayValidator.Parameters[ParameterType.Height].Value.ToString();
             LowerDiametrTextBox.Text = _ashtrayValidator.Parameters[ParameterType.LowerDiametr].Value.ToString();
             UpperDiametrTextBox.Text = _ashtrayValidator.Parameters[ParameterType.UpperDiametr].Value.ToString();
             WallThicknessTextBox.Text = _ashtrayValidator.Parameters[ParameterType.WallThickness].Value.ToString();
 
-            BottomThicknessTextBox.TextChanged += FindError;
-            HeightTextBox.KeyPress += FindError;
-            LowerDiametrTextBox.KeyPress += FindError;
-            UpperDiametrTextBox.KeyPress += FindError;
-            WallThicknessTextBox.KeyPress += FindError;
+            
         }
 
         /// <summary>
@@ -65,25 +68,31 @@ namespace Ashtray.View
                 keyValue.Value.BackColor = Color.White;
             }
 
-            try
-            {
-                int bottomThickness = int.Parse(BottomThicknessTextBox.Text);
-                int height = int.Parse(HeightTextBox.Text);
-                int lowerDiametr = int.Parse(LowerDiametrTextBox.Text);
-                int upperDiametr = int.Parse(UpperDiametrTextBox.Text);
-                int wallThickness = int.Parse(WallThicknessTextBox.Text);
-                _ashtrayValidator.SetParameters(bottomThickness, height, lowerDiametr, upperDiametr, wallThickness);
+            _ashtrayValidator.SetParameters(BottomThicknessTextBox.Text, HeightTextBox.Text, 
+                LowerDiametrTextBox.Text, UpperDiametrTextBox.Text, WallThicknessTextBox.Text);
 
                 foreach (var keyValue in _ashtrayValidator.Errors)
                 {
                     _parameterToTextBox[keyValue.Key].BackColor = Color.LightPink;
                 }
 
-            }
-            catch (Exception ex)
+            
+            /*catch (Exception ex)
             {
                 Console.WriteLine(ex);
                 CheckEmptyTextBox();
+            }*/
+        }
+
+        private void checkParameterIsEmptyAndUpdateState(String textParameter, ParameterType parameterType, int value, string message)
+        {
+            string error = " не должно быть пустым";
+            if (textParameter != string.Empty)
+            {
+                _ashtrayValidator.Errors[parameterType] = "Поле " + message + error;
+            } else
+            {
+                value = int.Parse(BottomThicknessTextBox.Text);
             }
         }
 

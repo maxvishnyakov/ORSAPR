@@ -34,7 +34,17 @@ namespace Ashtray.Model
             };
         }
 
-
+        private void isParameterEmpty (String textParameter, ParameterType parameterType, string errorMessage)
+        {
+            if (textParameter != string.Empty)
+            {
+                Parameters[parameterType].Value = int.Parse(textParameter);
+            } 
+            else
+            {
+                Errors.Add(parameterType, errorMessage + " не должно быть пустым");
+            }
+        }
 
         /// <summary>
         /// Создает объект класса звездолета для построения.
@@ -44,15 +54,57 @@ namespace Ashtray.Model
         /// <param name="lowerDiametr">Нижний диаметр</param>
         /// <param name="upperDiametr">Верхний диаметр</param>
         /// <param name="wallThickness">Толщина стенок</param>
-        public void SetParameters(int bottomThickness, int height, int lowerDiametr,
-            int upperDiametr, int wallThickness)
+        public void SetParameters(string bottomThickness, string height, string lowerDiametr,
+            string upperDiametr, string wallThickness)
         {
             Errors.Clear();
-            Parameters[ParameterType.BottomThickness].Value = bottomThickness;
-            Parameters[ParameterType.Height].Value = height;
-            Parameters[ParameterType.LowerDiametr].Value = lowerDiametr;
-            Parameters[ParameterType.UpperDiametr].Value = upperDiametr;
-            Parameters[ParameterType.WallThickness].Value = wallThickness;
+            isParameterEmpty(lowerDiametr, ParameterType.LowerDiametr, "Нижний диаметр");
+            isParameterEmpty(upperDiametr, ParameterType.UpperDiametr, "Верхний диаметр");
+            isParameterEmpty(bottomThickness, ParameterType.BottomThickness, "Толщина дна");
+            isParameterEmpty(height, ParameterType.Height, "Высота");
+            isParameterEmpty(wallThickness, ParameterType.WallThickness, "Толщина стенок");
+            if (Errors.Count == 0)
+            {
+                CheckParametersRelationship(int.Parse(upperDiametr), int.Parse(lowerDiametr) + 20 , int.Parse(lowerDiametr) + 30, ParameterType.UpperDiametr, "Диаметр верхней части");
+                if (!Errors.ContainsKey(ParameterType.UpperDiametr))
+                {
+                    Parameters[ParameterType.LowerDiametr].Value = int.Parse(lowerDiametr);
+                }
+                CheckParametersRelationship(int.Parse(height), int.Parse(bottomThickness) * 5, int.Parse(bottomThickness) * 6, ParameterType.UpperDiametr, "Высота");
+                if (!Errors.ContainsKey(ParameterType.Height))
+                {
+                    Parameters[ParameterType.BottomThickness].Value = int.Parse(bottomThickness);
+                }
+            }
+            else
+            {
+                return;
+            }
+            /*if (!isParameterEmpty(bottomThickness))
+            {
+                Parameters[ParameterType.BottomThickness].Value = int.Parse(bottomThickness);
+
+            }
+            if (!isParameterEmpty(height))
+            {
+                Parameters[ParameterType.Height].Value = int.Parse(height);
+
+            }
+            if (!isParameterEmpty(lowerDiametr))
+            {
+                Parameters[ParameterType.LowerDiametr].Value = int.Parse(lowerDiametr);
+
+            }
+            if (!isParameterEmpty(upperDiametr))
+            {
+                Parameters[ParameterType.UpperDiametr].Value = int.Parse(upperDiametr);
+
+            }
+            if (!isParameterEmpty(wallThickness))
+            {
+                Parameters[ParameterType.WallThickness].Value = int.Parse(wallThickness);
+
+            }*/
             /*CheckParametersRelationship(bottomThickness, 100, ParameterType.BottomThickness, "Толщина дна");
             CheckParametersRelationship(height, 100, ParameterType.Height, "Высота");
             CheckParametersRelationship(lowerDiametr, 100, ParameterType.LowerDiametr, "Диаметр дна снизу");
@@ -70,22 +122,6 @@ namespace Ashtray.Model
                     "Нижний диметр должен быть меньше верхнего не менее чем на 20.");*/
         }
 
-        private bool CheckRange(int value, int minValue, int maxValue, ParameterType parameterType, string errorMessage)
-        {
-            string minErrorMessage = errorMessage + " не может быть менее " +
-                              minValue + " мм.";
-            string maxErrorMessage = errorMessage + " не может быть более " +
-                              maxValue + " мм.";
-            if (value < minValue)
-            {
-                Errors.Add(parameterType, minErrorMessage);
-                return false;
-            }
-            if (!(value > maxValue)) return true;
-            Errors.Add(parameterType, maxErrorMessage);
-            return false;
-        }
-
         /// <summary>
         /// Проверка взаимосвязи параметров между собой.
         /// </summary>
@@ -93,13 +129,12 @@ namespace Ashtray.Model
         /// <param name="mainParameter">Значение параметра, от которого зависимость.</param>
         /// <param name="parameterType">Тип параметра.</param>
         /// <param name="errorMessage">Сообщение об ошибке.</param>
-        private void CheckParametersRelationship(int value, int mainParameter,
+        private void CheckParametersRelationship(int value, int mainParameterMin, int mainParameterMax,
             ParameterType parameterType, string errorMessage)
         {
-            Parameters[parameterType].Value = value;
             if (!Errors.ContainsKey(parameterType))
             {
-                if (value > mainParameter)
+                if ((value > mainParameterMin) && (value < mainParameterMax))
                 {
                     Errors.Add(parameterType, errorMessage);
                 }
