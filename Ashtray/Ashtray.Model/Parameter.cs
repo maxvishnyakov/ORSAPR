@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Ashtray.Model
 {
-    // TODO: XML
+    // TODO: XML - Done.
+    /// <summary>
+    /// Класс параметра
+    /// </summary>
     public class Parameter : IEquatable<Parameter> 
     {
         /// <summary>

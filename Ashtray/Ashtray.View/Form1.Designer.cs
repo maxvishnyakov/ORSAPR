@@ -1,7 +1,7 @@
 ﻿
 namespace Ashtray.View
 {
-    partial class Form1
+    partial class AshtrayForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -226,15 +226,15 @@ namespace Ashtray.View
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // Form1
+            // AshtrayForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(718, 401);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "AshtrayForm";
+            this.Text = "AshtrayForm";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

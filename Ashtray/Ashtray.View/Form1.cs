@@ -7,29 +7,32 @@ using System.Linq;
 
 namespace Ashtray.View
 {
-	// TODO: XML
-    public partial class Form1 : Form
+	// TODO: XML - Done.
+    /// <summary>
+    /// Класс формы
+    /// </summary>
+    public partial class AshtrayForm : Form
     {
         /// <summary>
         /// Словарь Тип параметра-TextBox.
         /// </summary>
         private readonly Dictionary<ParameterType, TextBox> _parameterToTextBox;
 
-        private readonly AshtrayValidator _ashtrayValidator;
+        private readonly Model.Ashtray _ashtrayValidator;
 
         /// <summary>
         /// Конструктор основной формы.
         /// </summary>
-        public Form1()
+        public AshtrayForm()
         {
             InitializeComponent();
-            _ashtrayValidator = new AshtrayValidator();
+            _ashtrayValidator = new Model.Ashtray();
             _parameterToTextBox = new Dictionary<ParameterType, TextBox>
             {
                 {ParameterType.BottomThickness, BottomThicknessTextBox},
                 {ParameterType.Height, HeightTextBox},
-                {ParameterType.LowerDiametr, LowerDiametrTextBox},
-                {ParameterType.UpperDiametr, UpperDiametrTextBox},
+                {ParameterType.LowerDiameter, LowerDiametrTextBox},
+                {ParameterType.UpperDiameter, UpperDiametrTextBox},
                 {ParameterType.WallThickness, WallThicknessTextBox}
             };
 
@@ -47,14 +50,11 @@ namespace Ashtray.View
             UpperDiametrTextBox.KeyPress += FindError;
             WallThicknessTextBox.KeyPress += FindError;
 
-
             BottomThicknessTextBox.Text = _ashtrayValidator.Parameters[ParameterType.BottomThickness].Value.ToString();
             HeightTextBox.Text = _ashtrayValidator.Parameters[ParameterType.Height].Value.ToString();
-            LowerDiametrTextBox.Text = _ashtrayValidator.Parameters[ParameterType.LowerDiametr].Value.ToString();
-            UpperDiametrTextBox.Text = _ashtrayValidator.Parameters[ParameterType.UpperDiametr].Value.ToString();
+            LowerDiametrTextBox.Text = _ashtrayValidator.Parameters[ParameterType.LowerDiameter].Value.ToString();
+            UpperDiametrTextBox.Text = _ashtrayValidator.Parameters[ParameterType.UpperDiameter].Value.ToString();
             WallThicknessTextBox.Text = _ashtrayValidator.Parameters[ParameterType.WallThickness].Value.ToString();
-
-            
         }
 
         /// <summary>
@@ -77,25 +77,6 @@ namespace Ashtray.View
 		        _parameterToTextBox[keyValue.Key].BackColor = Color.LightPink;
 	        }
 
-
-	        /*catch (Exception ex)
-	        {
-	            Console.WriteLine(ex);
-	            CheckEmptyTextBox();
-	        }*/
-        }
-
-        // TODO: Нужен? Убрать
-        private void checkParameterIsEmptyAndUpdateState(String textParameter, ParameterType parameterType, int value, string message)
-        {
-            string error = " не должно быть пустым";
-            if (textParameter != string.Empty)
-            {
-                _ashtrayValidator.Errors[parameterType] = "Поле " + message + error;
-            } else
-            {
-                value = int.Parse(BottomThicknessTextBox.Text);
-            }
         }
 
         /// <summary>
@@ -141,6 +122,7 @@ namespace Ashtray.View
             }
         }
 
+        //TODO: rename button
         /// <summary>
         /// Построение по введенным параметрам пепельницы.
         /// </summary>
