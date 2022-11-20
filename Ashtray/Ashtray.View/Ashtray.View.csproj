@@ -33,6 +33,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="KAPITypes">
+      <HintPath>..\..\..\..\Desktop\учеба\ОРСАПР\KAPITypes.dll</HintPath>
+    </Reference>
+    <Reference Include="Kompas6API5">
+      <HintPath>..\..\..\..\Desktop\учеба\ОРСАПР\Kompas6API5.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Kompas6Constants">
+      <HintPath>..\..\..\..\Desktop\учеба\ОРСАПР\Kompas6Constants.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="KompasAPI7">
+      <HintPath>..\..\..\..\Desktop\учеба\ОРСАПР\KompasAPI7.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -83,6 +98,10 @@
     <ProjectReference Include="..\Ashtray.Model\Ashtray.Model.csproj">
       <Project>{EB502F9D-A138-4D83-9208-F14842D2F75C}</Project>
       <Name>Ashtray.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ashtray.Wrapper\Ashtray.Wrapper.csproj">
+      <Project>{828fc43a-0002-4b1e-8b77-ba93ac544fac}</Project>
+      <Name>Ashtray.Wrapper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

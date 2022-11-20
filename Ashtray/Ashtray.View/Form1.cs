@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Collections.Generic;
 using Ashtray.Model;
+using Ashtray.Wrapper;
 using System.Linq;
 
 namespace Ashtray.View
@@ -20,12 +21,15 @@ namespace Ashtray.View
 
         private readonly Model.Ashtray _ashtrayValidator;
 
+        private readonly AshtrayBuilder ashtrayBuilder;
+
         /// <summary>
         /// Конструктор основной формы.
         /// </summary>
         public AshtrayForm()
         {
             InitializeComponent();
+            ashtrayBuilder = new AshtrayBuilder();
             _ashtrayValidator = new Model.Ashtray();
             _parameterToTextBox = new Dictionary<ParameterType, TextBox>
             {
@@ -146,7 +150,7 @@ namespace Ashtray.View
                 }
                 else
                 {
-
+                    ashtrayBuilder.BuildAshtray();
                 }
             }
             else
