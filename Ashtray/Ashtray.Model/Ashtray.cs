@@ -36,10 +36,10 @@ namespace Ashtray.Model
         }
 
         /// <summary>
-        /// Создает объект класса звездолета для построения.
+        /// Создает объект класса пепельницы для построения.
         /// </summary>
         /// <param name="textParameter">Параметр из текст бокса</param>
-        /// <param name="parameterType">ТИп параметра</param>
+        /// <param name="parameterType">Тип параметра</param>
         /// <param name="errorMessage">Сообщение об ошибке</param>
         private void CheckParameterEmpty (String textParameter, ParameterType parameterType, string errorMessage)
         {
@@ -54,7 +54,7 @@ namespace Ashtray.Model
         }
 
         /// <summary>
-        /// Создает объект класса звездолета для построения.
+        /// Создает объект класса пепельницы для построения.
         /// </summary>
         /// <param name="bottomThickness">Толщина дна</param>
         /// <param name="height">Высота</param>

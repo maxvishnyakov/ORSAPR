@@ -6,16 +6,22 @@ using System.Threading.Tasks;
 
 namespace Ashtray.Wrapper
 {
+    /// <summary>
+    /// Класс для открытия Компас-3D, создания файла и построения модели
+    /// </summary>
     public class AshtrayBuilder
     {
-       public void BuildAshtray()
+        /// <summary>
+        /// Построение модели пепельницы.
+        /// </summary>
+        public void BuildAshtray(int bottomThickness, int height, int lowerDiameter, int upperDiameter, int wallThickness)
        {
             KompasWrapper kompasWrapper = new KompasWrapper();
             kompasWrapper.StartKompas();
             kompasWrapper.CreateFile();
-            kompasWrapper.CreateDetail(true);
-            kompasWrapper.FilletPlate();
-            kompasWrapper.CreateArray(21, 10, 35, 4);
+            kompasWrapper.CreateDetail(bottomThickness, height, lowerDiameter, upperDiameter, wallThickness);
+            kompasWrapper.FilletPlate(bottomThickness, lowerDiameter);
+            kompasWrapper.CreateArray(height);
        }
     }
 }

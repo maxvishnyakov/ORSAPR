@@ -113,11 +113,10 @@ namespace Ashtray.Wrapper
         }
 
         /// <summary>
-        /// Построение стакана.
+        /// Построение пепельницы.
         /// </summary>
-        /// <param name="parameters">Параметры стакана.</param>
-        /// <param name="checkFaceted">Определяем, граненый ли стакан.</param>
-        public void CreateDetail(bool checkFaceted)
+        /// <param name="parameters">Параметры пепельницы.</param>
+        public void CreateDetail(int bottomThickness, int height, int lowerDiameter, int upperDiameter, int wallThickness)
         {
             if (_kompas != null)
             {
@@ -125,46 +124,40 @@ namespace Ashtray.Wrapper
                 _doc3D.Create(false, true);
             }
 
-            var wallwidth = 3;
-            var highdiameter = 80;
-            var height = 42;
-            var bottomthickness = 7;
-            var lowdiameter = 70;
-
             _doc3D = (ksDocument3D)_kompas.ActiveDocument3D();
             _part = (ksPart)_doc3D.GetPart((short)Part_Type.pTop_Part);
 
-            CreateAshtraySketch(wallwidth, highdiameter, height, bottomthickness, lowdiameter);
+            CreateAshtraySketch(wallThickness, upperDiameter, height, bottomThickness, lowerDiameter);
         }
 
         /// <summary>
-        /// Эскиз стакана.
+        /// Эскиз пепельницы.
         /// </summary>
-        /// <param name="wallWidth">Толщина стенки.</param>
-        /// <param name="highDiameter">Диаметр верхней окружности.</param>
+        /// <param name="wallThickness">Толщина стенки.</param>
+        /// <param name="upperDiameter">Диаметр верхней окружности.</param>
         /// <param name="height">Высота.</param>
-        /// <param name="bottomThicknes">Толщина дна.</param>
-        /// <param name="lowDiameter">Диаметр нижней окружности.</param>
+        /// <param name="bottomThickness">Толщина дна.</param>
+        /// <param name="lowerDiameter">Диаметр нижней окружности.</param>
         /// <return>Возвращает выдавленный эскиз.</return>
-        private void CreateAshtraySketch(double wallWidth, double highDiameter, double height,
-            double bottomThicknes, double lowDiameter)
+        private void CreateAshtraySketch(int wallThickness, int upperDiameter, int height,
+            int bottomThickness, int lowerDiameter)
         {
             CreateSketch((short)Obj3dType.o3d_planeXOY);
             _sketchEdit = (ksDocument2D)_sketchDefinition.BeginEdit();
             _sketchEdit.ksLineSeg
-                (origin, origin, origin + lowDiameter / 2, origin, 1);
+                (origin, origin, origin + lowerDiameter / 2, origin, 1);
             _sketchEdit.ksLineSeg
-                (origin + lowDiameter / 2, origin, highDiameter / 2, height, 1);
+                (origin + lowerDiameter / 2, origin, upperDiameter / 2, height, 1);
             _sketchEdit.ksLineSeg
-                (highDiameter / 2, height, highDiameter / 2 - wallWidth, height, 1);
+                (upperDiameter / 2, height, upperDiameter / 2 - wallThickness, height, 1);
             _sketchEdit.ksLineSeg
-                (highDiameter / 2 - wallWidth, height, lowDiameter / 2 - wallWidth, bottomThicknes, 1);
+                (upperDiameter / 2 - wallThickness, height, lowerDiameter / 2 - wallThickness, bottomThickness, 1);
             _sketchEdit.ksLineSeg
-                (lowDiameter / 2 - wallWidth, bottomThicknes, origin, bottomThicknes, 1);
+                (lowerDiameter / 2 - wallThickness, bottomThickness, origin, bottomThickness, 1);
             _sketchEdit.ksLineSeg
-                (origin, bottomThicknes, origin, origin, 1);
+                (origin, bottomThickness, origin, origin, 1);
             _sketchEdit.ksLineSeg
-              (origin, origin, origin, bottomThicknes, 3);
+              (origin, origin, origin, bottomThickness, 3);
             _sketchDefinition.EndEdit();
             RotateSketch();
         }
@@ -191,15 +184,18 @@ namespace Ashtray.Wrapper
         /// <summary>
 		/// Метод скругления
 		/// </summary>
-        public void FilletPlate()
+        /// <param name="bottomThickness">Толщина дна</param>
+		/// <param name="lowerDiameter">Нижний диаметр</param>
+        public void FilletPlate(int bottomThickness, int lowerDiameter)
         {
             ksEntityCollection faceCollection =
                 _part.EntityCollection((short)ksObj3dTypeEnum.o3d_edge);
-            const int y = 0;
-            faceCollection.SelectByPoint(35, y, 0);
+            
+            //Точка, через которую проходит нижняя грань пепельницы. 
+            faceCollection.SelectByPoint(lowerDiameter / 2, 0, 0);
 
             ksEntity baseFace = faceCollection.First();
-            CreateFillet(baseFace, 7);
+            CreateFillet(baseFace, bottomThickness);
         }
 
         /// <summary>
@@ -207,7 +203,7 @@ namespace Ashtray.Wrapper
 		/// </summary>
 		/// <param name="face">Грань скругления</param>
 		/// <param name="radius">Радиус скругления</param>
-		private void CreateFillet(ksEntity face, double radius)
+		private void CreateFillet(ksEntity face, int radius)
         {
             ksEntity fillet = _part.NewEntity((short)ksObj3dTypeEnum.o3d_fillet);
 
@@ -222,114 +218,20 @@ namespace Ashtray.Wrapper
             fillet.Create();
         }
 
-        public void BuildHolesInThePlate(double count, double diameterPlate,
-            double diameterStake)
-        {
-            var document =
-                (ksDocument3D)_kompas.ActiveDocument3D();
-            // Новый компонент
-            var part =
-                (ksPart)document.GetPart((short)Part_Type.pTop_Part);
-            // TODO: RSDN
-            if (part == null) return;
-            var entitySketch =
-                (ksEntity)part.NewEntity((short)Obj3dType.o3d_sketch);
-            if (entitySketch == null) return;
-            // Интерфейс свойств эскиза
-            var sketchDef =
-                (ksSketchDefinition)entitySketch.GetDefinition();
-            if (sketchDef == null) return;
-            // Получим интерфейс базовой плоскости XOY
-            var basePlane =
-                (ksEntity)part.GetDefaultEntity((short)Obj3dType.o3d_planeXOY);
-            if (basePlane == null) return;
-            // Установим плоскость XOZ базовой для эскиза
-            sketchDef.SetPlane(basePlane);
-            // Создадим эскиз
-            entitySketch.Create();
-
-            // Интерфейс редактора эскиза
-            var sketchEdit =
-                (ksDocument2D)sketchDef.BeginEdit();
-            if (sketchEdit == null) return;
-            // Радиус тарелки со свдигом
-            diameterPlate = -(diameterPlate / 2 - 10.5);
-            // Радиус кола со сдвигом
-            diameterStake = -diameterStake / 2 - 2;
-            // Общая координата
-            const double sharedCoordinate = 0.75;
-
-            // TODO: можно попробовать обернуть в цикл
-            sketchEdit.ksLineSeg
-                (-sharedCoordinate, diameterPlate,
-                -sharedCoordinate, diameterStake, 1);
-            sketchEdit.ksLineSeg
-                (-sharedCoordinate, diameterStake,
-                sharedCoordinate, diameterStake, 1);
-            sketchEdit.ksLineSeg
-                (sharedCoordinate, diameterStake,
-                sharedCoordinate, diameterPlate, 1);
-            sketchEdit.ksLineSeg
-                (sharedCoordinate, diameterPlate,
-                -sharedCoordinate, diameterPlate, 1);
-            // Завершение редактирования эскиза
-            sketchDef.EndEdit();
-
-            //Вырезать выдавливанием
-            var entityCutExtr =
-                (ksEntity)part.NewEntity((short)Obj3dType.o3d_cutExtrusion);
-            if (entityCutExtr == null) return;
-            var cutExtrDef =
-                (ksCutExtrusionDefinition)entityCutExtr.GetDefinition();
-            if (cutExtrDef != null)
-            {
-                // Глубина выреза
-                const int thickness = 5;
-                // Установим эскиз операции
-                cutExtrDef.SetSketch(entitySketch);
-                // Прямое направление
-                cutExtrDef.directionType =
-                    (short)Direction_Type.dtBoth;
-                cutExtrDef.SetSideParam
-                    (true, (short)End_Type.etBlind, thickness, 0, true);
-                cutExtrDef.SetThinParam(false, 0, 0, 0);
-            }
-            // Создадим операцию вырезание выдавливанием
-            entityCutExtr.Create();
-
-            //Отверстия по концетрической сетке
-            var circularCopyEntity =
-                (ksEntity)part.NewEntity((short)Obj3dType.o3d_circularCopy);
-            var circularCopyDefinition =
-                (ksCircularCopyDefinition)circularCopyEntity.GetDefinition();
-            circularCopyDefinition.SetCopyParamAlongDir
-                (Convert.ToInt32(count), 90, true, false);
-            var baseAxisOz =
-                (ksEntity)part.GetDefaultEntity((short)Obj3dType.o3d_axisOZ);
-            circularCopyDefinition.SetAxis(baseAxisOz);
-            var entityCollection =
-                (ksEntityCollection)circularCopyDefinition.GetOperationArray();
-            entityCollection.Add(cutExtrDef);
-            circularCopyEntity.Create();
-        }
-
         /// <summary>
         /// Создание отверстий по концентрической сетке
         /// </summary>
-        /// <param name="coordinate">Координата расположения</param>
-        /// <param name="radius">Радиус отверстия</param>
         /// <param name="height">Высота вырезания</param>
-        /// <param name="count">Количество отверстий</param>
-        public void CreateArray(double coordinate, double radius,
-            double height, int count)
+        public void CreateArray(int height)
         {
             var document = (ksDocument3D)_kompas.ActiveDocument3D();
             var part = (ksPart)document.GetPart((short)Part_Type.pTop_Part);
-            const int coordinateX = 42;
-            const int coordinateY = 42;
+            const int countHoles = 4;
+            const int radius = 10;
             const int styleLineBase = 1;
-            const int styleLineAuxiliary = 6;
             const int stepCopy = 360;
+            const int coordinateX = 0;
+            int coordinateY = height;
 
             ksEntity entitySketch = (ksEntity)part.NewEntity((short)
                 Obj3dType.o3d_sketch);
@@ -341,9 +243,7 @@ namespace Ashtray.Wrapper
             entitySketch.Create();
             ksDocument2D sketchEdit = (ksDocument2D)sketchDefinition.
                 BeginEdit();
-            sketchEdit.ksCircle(coordinateX, coordinateY, coordinate,
-                styleLineAuxiliary);
-            sketchEdit.ksCircle(coordinate, coordinateY, radius,
+            sketchEdit.ksCircle(coordinateX, coordinateY, radius,
                 styleLineBase);
             sketchDefinition.EndEdit();
 
@@ -352,9 +252,9 @@ namespace Ashtray.Wrapper
             ksCutExtrusionDefinition cutExtrusionDefinition =
                 (ksCutExtrusionDefinition)entityCutExtrusion.GetDefinition();
             cutExtrusionDefinition.directionType =
-                (short)Direction_Type.dtMiddlePlane;
+                (short)Direction_Type.dtNormal;
             cutExtrusionDefinition.SetSideParam(true,
-                (short)End_Type.etUpToSurfaceTo, height);
+                (short)End_Type.etThroughAll);
             cutExtrusionDefinition.SetSketch(entitySketch);
             entityCutExtrusion.Create();
 
@@ -362,7 +262,7 @@ namespace Ashtray.Wrapper
                 Obj3dType.o3d_circularCopy);
             ksCircularCopyDefinition circularCopyDefinition =
                 (ksCircularCopyDefinition)circularCopyEntity.GetDefinition();
-            circularCopyDefinition.SetCopyParamAlongDir(count, stepCopy,
+            circularCopyDefinition.SetCopyParamAlongDir(countHoles, stepCopy,
                 true, false);
             ksEntity baseAxisOZ = (ksEntity)part.GetDefaultEntity((short)
                 Obj3dType.o3d_axisOY);

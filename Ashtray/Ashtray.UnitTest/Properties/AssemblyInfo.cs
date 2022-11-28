@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Общие сведения об этой сборке предоставляются следующим набором
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
 // связанные со сборкой.
-[assembly: AssemblyTitle("Wrapper")]
+[assembly: AssemblyTitle("Ashtray.UnitTest")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Wrapper")]
+[assembly: AssemblyProduct("Ashtray.UnitTest")]
 [assembly: AssemblyCopyright("Copyright ©  2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("49d99592-5799-411e-a0b8-5c43e37b6d2f")]
+[assembly: Guid("fb39ea05-4de9-4e20-951c-849446dead2e")]
 
 // Сведения о версии сборки состоят из указанных ниже четырех значений:
 //

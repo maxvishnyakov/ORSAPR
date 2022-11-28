@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{49D99592-5799-411E-A0B8-5C43E37B6D2F}</ProjectGuid>
+    <ProjectGuid>{FB39EA05-4DE9-4E20-951C-849446DEAD2E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Wrapper</RootNamespace>
-    <AssemblyName>Wrapper</AssemblyName>
+    <RootNamespace>Ashtray.UnitTest</RootNamespace>
+    <AssemblyName>Ashtray.UnitTest</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,20 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="KAPITypes">
-      <HintPath>..\..\..\..\Desktop\учеба\ОРСАПР\KAPITypes.dll</HintPath>
-    </Reference>
-    <Reference Include="Kompas6API5">
-      <HintPath>..\..\..\..\Desktop\учеба\ОРСАПР\Kompas6API5.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Kompas6Constants">
-      <HintPath>..\..\..\..\Desktop\учеба\ОРСАПР\Kompas6Constants.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="KompasAPI7">
-      <HintPath>..\..\..\..\Desktop\учеба\ОРСАПР\KompasAPI7.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\..\Desktop\учеба\ОРСАПР\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,9 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AshtrayBulder.cs" />
-    <Compile Include="KompasWrapper.cs" />
+    <Compile Include="AshtrayTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ashtray.Model\Ashtray.Model.csproj">
+      <Project>{eb502f9d-a138-4d83-9208-f14842d2f75c}</Project>
+      <Name>Ashtray.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -19,7 +19,7 @@ namespace Ashtray.View
         /// </summary>
         private readonly Dictionary<ParameterType, TextBox> _parameterToTextBox;
 
-        private readonly Model.Ashtray _ashtrayValidator;
+        private readonly Model.Ashtray _ashtray;
 
         private readonly AshtrayBuilder ashtrayBuilder;
 
@@ -30,7 +30,7 @@ namespace Ashtray.View
         {
             InitializeComponent();
             ashtrayBuilder = new AshtrayBuilder();
-            _ashtrayValidator = new Model.Ashtray();
+            _ashtray = new Model.Ashtray();
             _parameterToTextBox = new Dictionary<ParameterType, TextBox>
             {
                 {ParameterType.BottomThickness, BottomThicknessTextBox},
@@ -54,11 +54,11 @@ namespace Ashtray.View
             UpperDiametrTextBox.KeyPress += FindError;
             WallThicknessTextBox.KeyPress += FindError;
 
-            BottomThicknessTextBox.Text = _ashtrayValidator.Parameters[ParameterType.BottomThickness].Value.ToString();
-            HeightTextBox.Text = _ashtrayValidator.Parameters[ParameterType.Height].Value.ToString();
-            LowerDiametrTextBox.Text = _ashtrayValidator.Parameters[ParameterType.LowerDiameter].Value.ToString();
-            UpperDiametrTextBox.Text = _ashtrayValidator.Parameters[ParameterType.UpperDiameter].Value.ToString();
-            WallThicknessTextBox.Text = _ashtrayValidator.Parameters[ParameterType.WallThickness].Value.ToString();
+            BottomThicknessTextBox.Text = _ashtray.Parameters[ParameterType.BottomThickness].Value.ToString();
+            HeightTextBox.Text = _ashtray.Parameters[ParameterType.Height].Value.ToString();
+            LowerDiametrTextBox.Text = _ashtray.Parameters[ParameterType.LowerDiameter].Value.ToString();
+            UpperDiametrTextBox.Text = _ashtray.Parameters[ParameterType.UpperDiameter].Value.ToString();
+            WallThicknessTextBox.Text = _ashtray.Parameters[ParameterType.WallThickness].Value.ToString();
         }
 
         /// <summary>
@@ -73,10 +73,10 @@ namespace Ashtray.View
 		        keyValue.Value.BackColor = Color.White;
 	        }
 
-	        _ashtrayValidator.SetParameters(BottomThicknessTextBox.Text, HeightTextBox.Text,
+	        _ashtray.SetParameters(BottomThicknessTextBox.Text, HeightTextBox.Text,
 		        LowerDiametrTextBox.Text, UpperDiametrTextBox.Text, WallThicknessTextBox.Text);
 
-	        foreach (var keyValue in _ashtrayValidator.Errors)
+	        foreach (var keyValue in _ashtray.Errors)
 	        {
 		        _parameterToTextBox[keyValue.Key].BackColor = Color.LightPink;
 	        }
@@ -99,9 +99,9 @@ namespace Ashtray.View
                     counter += 1;
                     keyValue.Value.BackColor = Color.LightPink;
                 }
-                else if (_ashtrayValidator.Errors.ContainsKey(keyValue.Key))
+                else if (_ashtray.Errors.ContainsKey(keyValue.Key))
                 {
-                    if (_ashtrayValidator.Errors[keyValue.Key] != string.Empty)
+                    if (_ashtray.Errors[keyValue.Key] != string.Empty)
                     { 
                         keyValue.Value.BackColor = Color.LightPink;
                     }
@@ -136,10 +136,10 @@ namespace Ashtray.View
         {
             if (CheckEmptyTextBox())
             {
-                if (_ashtrayValidator.Errors.Count > 0)
+                if (_ashtray.Errors.Count > 0)
                 {
                     var message = string.Empty;
-                    foreach (var keyValue in _ashtrayValidator.Errors)
+                    foreach (var keyValue in _ashtray.Errors)
                     {
                         // TODO: Селать в одну строку $
 	                    message += "• " + keyValue.Value + "\n" + "\n";
@@ -150,7 +150,9 @@ namespace Ashtray.View
                 }
                 else
                 {
-                    ashtrayBuilder.BuildAshtray();
+                    ashtrayBuilder.BuildAshtray(_ashtray.Parameters[ParameterType.BottomThickness].Value, _ashtray.Parameters[ParameterType.Height].Value,
+                        _ashtray.Parameters[ParameterType.LowerDiameter].Value, _ashtray.Parameters[ParameterType.UpperDiameter].Value,
+                        _ashtray.Parameters[ParameterType.WallThickness].Value);
                 }
             }
             else
