@@ -52,5 +52,22 @@ namespace Ashtray.UnitTest
             var actual = _ashtray.Parameters;
             Assert.AreEqual(expected, actual);
         }
+
+        /// <summary>
+        /// Позитивный и негативный тест сеттера Parameters.
+        /// </summary>
+        [Test(Description = "Позитивный и негативный тест сеттера Parameters.")]
+        [TestCase(80, 0, Description = "Позитивный тест сеттера Parameters.")]
+        [TestCase(110, 1, Description = "Негативный тест сеттера Parameters.")]
+        public void TestParametersSet_CorrectValue(string upperDiametr, int expected)
+        {
+            const string bottomThickness = "7";
+            const string height = "42";
+            const string lowerDiametr = "50";
+            const string wallThickness = "5";
+            _ashtray.SetParameters(bottomThickness, height, lowerDiametr, upperDiametr, wallThickness);
+            var actual = _ashtray.Errors.Count;
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

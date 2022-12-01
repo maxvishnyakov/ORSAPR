@@ -10,6 +10,9 @@ namespace Ashtray.Model
     /// </summary>
     public class Ashtray
     {
+        /// <summary>
+        /// Словарь с параметрами пепельницы.
+        /// </summary>
         public Dictionary<ParameterType, Parameter> Parameters { get; set; }
 
         /// <summary>
