@@ -14,6 +14,7 @@ namespace Ashtray.Wrapper
         /// <summary>
         /// Построение модели пепельницы.
         /// </summary>
+        // TODO: Разделить логику с враппером
         public void BuildAshtray(int bottomThickness, int height, int lowerDiameter, int upperDiameter, int wallThickness)
        {
             KompasWrapper kompasWrapper = new KompasWrapper();

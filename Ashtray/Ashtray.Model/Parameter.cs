@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Ashtray.Model
 {
-    // TODO: XML - Done.
     /// <summary>
     /// Класс параметра
     /// </summary>

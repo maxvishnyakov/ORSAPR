@@ -115,6 +115,7 @@ namespace Ashtray.Wrapper
         /// <summary>
         /// Построение пепельницы.
         /// </summary>
+        // TODO: параметры
         /// <param name="parameters">Параметры пепельницы.</param>
         public void CreateDetail(int bottomThickness, int height, int lowerDiameter, int upperDiameter, int wallThickness)
         {

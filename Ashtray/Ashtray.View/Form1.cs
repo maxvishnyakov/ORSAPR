@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using Ashtray.Model;
 using Ashtray.Wrapper;
 using System.Linq;
+// TODO: динамически изменять значения в label
 
 namespace Ashtray.View
 {
-	// TODO: XML - Done.
     /// <summary>
     /// Класс формы
     /// </summary>
@@ -19,6 +19,7 @@ namespace Ashtray.View
         /// </summary>
         private readonly Dictionary<ParameterType, TextBox> _parameterToTextBox;
 
+        // TODO: XML
         private readonly Model.Ashtray _ashtray;
 
         private readonly AshtrayBuilder ashtrayBuilder;

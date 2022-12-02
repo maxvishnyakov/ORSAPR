@@ -3,12 +3,11 @@ using System.Collections.Generic;
 
 namespace Ashtray.Model
 {
-    // TODO: XML - Done.
-    // TODO: Переименовать - Done.
-    /// <summary>
-    /// Класс пепельницы
-    /// </summary>
-    public class Ashtray
+	/// <summary>
+	/// Класс пепельницы
+	/// </summary>
+	// TODO: Переименовать AshtrayParameters
+	public class Ashtray
     {
         /// <summary>
         /// Словарь с параметрами пепельницы.
@@ -46,6 +45,7 @@ namespace Ashtray.Model
         /// <param name="errorMessage">Сообщение об ошибке</param>
         private void CheckParameterEmpty (String textParameter, ParameterType parameterType, string errorMessage)
         {
+	        // TODO: проверка на парс try/catch
             if (textParameter != string.Empty)
             {
                 Parameters[parameterType].Value = int.Parse(textParameter);
