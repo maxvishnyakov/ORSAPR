@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Collections.Generic;
 using Ashtray.Model;
 using Ashtray.Wrapper;
-using System.Linq;
 // TODO: динамически изменять значения в label
 
 namespace Ashtray.View
@@ -19,10 +18,16 @@ namespace Ashtray.View
         /// </summary>
         private readonly Dictionary<ParameterType, TextBox> _parameterToTextBox;
 
-        // TODO: XML
-        private readonly Model.Ashtray _ashtray;
+        // TODO: XML    ЕСТЬ
+        /// <summary>
+        /// Параметры пепельницы.
+        /// </summary>
+        private readonly AshtrayParameters _ashtrayParameters;
 
-        private readonly AshtrayBuilder ashtrayBuilder;
+        /// <summary>
+        /// Объект для построения пепельницы.
+        /// </summary>
+        private readonly AshtrayBuilder _ashtrayBuilder;
 
         /// <summary>
         /// Конструктор основной формы.
@@ -30,8 +35,8 @@ namespace Ashtray.View
         public AshtrayForm()
         {
             InitializeComponent();
-            ashtrayBuilder = new AshtrayBuilder();
-            _ashtray = new Model.Ashtray();
+            _ashtrayBuilder = new AshtrayBuilder();
+            _ashtrayParameters = new AshtrayParameters();
             _parameterToTextBox = new Dictionary<ParameterType, TextBox>
             {
                 {ParameterType.BottomThickness, BottomThicknessTextBox},
@@ -55,11 +60,17 @@ namespace Ashtray.View
             UpperDiametrTextBox.KeyPress += FindError;
             WallThicknessTextBox.KeyPress += FindError;
 
-            BottomThicknessTextBox.Text = _ashtray.Parameters[ParameterType.BottomThickness].Value.ToString();
-            HeightTextBox.Text = _ashtray.Parameters[ParameterType.Height].Value.ToString();
-            LowerDiametrTextBox.Text = _ashtray.Parameters[ParameterType.LowerDiameter].Value.ToString();
-            UpperDiametrTextBox.Text = _ashtray.Parameters[ParameterType.UpperDiameter].Value.ToString();
-            WallThicknessTextBox.Text = _ashtray.Parameters[ParameterType.WallThickness].Value.ToString();
+            BottomThicknessTextBox.Text = _ashtrayParameters.Parameters[ParameterType.BottomThickness].Value.ToString();
+            HeightTextBox.Text = _ashtrayParameters.Parameters[ParameterType.Height].Value.ToString();
+            LowerDiametrTextBox.Text = _ashtrayParameters.Parameters[ParameterType.LowerDiameter].Value.ToString();
+            UpperDiametrTextBox.Text = _ashtrayParameters.Parameters[ParameterType.UpperDiameter].Value.ToString();
+            WallThicknessTextBox.Text = _ashtrayParameters.Parameters[ParameterType.WallThickness].Value.ToString();
+
+            legsComboBox.Items.Add("Нет");
+            legsComboBox.Items.Add("Прямоугольные");
+            legsComboBox.Items.Add("Круглые");
+            legsComboBox.Items.Add("Цилиндрические");
+            legsComboBox.SelectedItem = legsComboBox.Items[0];
         }
 
         /// <summary>
@@ -69,18 +80,18 @@ namespace Ashtray.View
         /// <param name="e">Изменение текста в TextBox.</param>
         private void FindError(object sender, EventArgs e)
         {
-	        foreach (var keyValue in _parameterToTextBox)
-	        {
-		        keyValue.Value.BackColor = Color.White;
-	        }
+            foreach (var keyValue in _parameterToTextBox)
+            {
+                keyValue.Value.BackColor = Color.White;
+            }
 
-	        _ashtray.SetParameters(BottomThicknessTextBox.Text, HeightTextBox.Text,
-		        LowerDiametrTextBox.Text, UpperDiametrTextBox.Text, WallThicknessTextBox.Text);
-
-	        foreach (var keyValue in _ashtray.Errors)
-	        {
-		        _parameterToTextBox[keyValue.Key].BackColor = Color.LightPink;
-	        }
+            _ashtrayParameters.SetParameters(BottomThicknessTextBox.Text, HeightTextBox.Text,
+                LowerDiametrTextBox.Text, UpperDiametrTextBox.Text, WallThicknessTextBox.Text);
+            UpdateLabels();
+            foreach (var keyValue in _ashtrayParameters.Errors)
+            {
+                _parameterToTextBox[keyValue.Key].BackColor = Color.LightPink;
+            }
 
         }
 
@@ -90,20 +101,20 @@ namespace Ashtray.View
         /// <returns>Возвращает true, если нет пустых ячеек,
         /// возвращает false в обратном случае.</returns>
         private bool CheckEmptyTextBox()
-       {
+        {
             var counter = 0;
             foreach (var keyValue in _parameterToTextBox)
             {
-	            // TODO: Можно под одно условие
-                if (keyValue.Value.Text == string.Empty)
+                // TODO: Можно под одно условие ЕСТЬ
+                if (keyValue.Value.Text == string.Empty || _ashtrayParameters.Errors.ContainsKey(keyValue.Key))
                 {
-                    counter += 1;
-                    keyValue.Value.BackColor = Color.LightPink;
-                }
-                else if (_ashtray.Errors.ContainsKey(keyValue.Key))
-                {
-                    if (_ashtray.Errors[keyValue.Key] != string.Empty)
-                    { 
+                    if (_ashtrayParameters.Errors[keyValue.Key] != string.Empty)
+                    {
+                        keyValue.Value.BackColor = Color.LightPink;
+                    }
+                    else
+                    {
+                        counter += 1;
                         keyValue.Value.BackColor = Color.LightPink;
                     }
                 }
@@ -127,23 +138,22 @@ namespace Ashtray.View
             }
         }
 
-        //TODO: rename button
         /// <summary>
         /// Построение по введенным параметрам пепельницы.
         /// </summary>
         /// <param name="sender">Кнопка.</param>
         /// <param name="e">Нажатие на кнопку.</param>
-        private void button1_Click(object sender, EventArgs e)
+        private void BuildButton_Click(object sender, EventArgs e)
         {
             if (CheckEmptyTextBox())
             {
-                if (_ashtray.Errors.Count > 0)
+                if (_ashtrayParameters.Errors.Count > 0)
                 {
                     var message = string.Empty;
-                    foreach (var keyValue in _ashtray.Errors)
+                    foreach (var keyValue in _ashtrayParameters.Errors)
                     {
-                        // TODO: Селать в одну строку $
-	                    message += "• " + keyValue.Value + "\n" + "\n";
+                        // TODO: Селать в одну строку $ ЕСТЬ
+                        message += $"• {keyValue.Value} \n\n";
                     }
 
                     MessageBox.Show(message, @"Неверно введены данные!",
@@ -151,9 +161,11 @@ namespace Ashtray.View
                 }
                 else
                 {
-                    ashtrayBuilder.BuildAshtray(_ashtray.Parameters[ParameterType.BottomThickness].Value, _ashtray.Parameters[ParameterType.Height].Value,
-                        _ashtray.Parameters[ParameterType.LowerDiameter].Value, _ashtray.Parameters[ParameterType.UpperDiameter].Value,
-                        _ashtray.Parameters[ParameterType.WallThickness].Value);
+                    _ashtrayBuilder.BuildAshtray(_ashtrayParameters.Parameters[ParameterType.BottomThickness].Value,
+                        _ashtrayParameters.Parameters[ParameterType.Height].Value,
+                        _ashtrayParameters.Parameters[ParameterType.LowerDiameter].Value,
+                        _ashtrayParameters.Parameters[ParameterType.UpperDiameter].Value,
+                        _ashtrayParameters.Parameters[ParameterType.WallThickness].Value, legsComboBox.SelectedItem.ToString());
                 }
             }
             else
@@ -162,6 +174,17 @@ namespace Ashtray.View
                     @"Ошибка при построении! Проверьте введенные данные.",
                     @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        /// <summary>
+        /// Обновление диапазонов для параметров
+        /// </summary>
+        private void UpdateLabels()
+        {
+            UpperDiameterLabel.Text = (_ashtrayParameters.Parameters[ParameterType.LowerDiameter].Value + 20).ToString() 
+                                      + " - " + (_ashtrayParameters.Parameters[ParameterType.LowerDiameter].Value + 30).ToString() + " мм.";
+            HeightLabel.Text = (_ashtrayParameters.Parameters[ParameterType.BottomThickness].Value * 5).ToString()
+                                          + " - " + (_ashtrayParameters.Parameters[ParameterType.BottomThickness].Value * 6).ToString() + " мм.";
         }
     }
 }

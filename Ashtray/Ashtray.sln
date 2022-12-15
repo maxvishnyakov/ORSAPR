@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ashtray.Wrapper", "Ashtray.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ashtray.UnitTest", "Ashtray.UnitTest\Ashtray.UnitTest.csproj", "{FB39EA05-4DE9-4E20-951C-849446DEAD2E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ashtray.StressTest", "Ashtray.StressTest\Ashtray.StressTest.csproj", "{4165EBDC-C790-4C3E-AED6-3F722D742C64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{FB39EA05-4DE9-4E20-951C-849446DEAD2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB39EA05-4DE9-4E20-951C-849446DEAD2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB39EA05-4DE9-4E20-951C-849446DEAD2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4165EBDC-C790-4C3E-AED6-3F722D742C64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4165EBDC-C790-4C3E-AED6-3F722D742C64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4165EBDC-C790-4C3E-AED6-3F722D742C64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4165EBDC-C790-4C3E-AED6-3F722D742C64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

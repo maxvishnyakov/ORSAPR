@@ -16,5 +16,5 @@ namespace Ashtray.Model
         Height,
         BottomThickness,
         WallThickness
-}
+    }
 }

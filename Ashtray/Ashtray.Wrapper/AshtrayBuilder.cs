@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Kompas6Constants3D;
 
 namespace Ashtray.Wrapper
 {
@@ -14,15 +10,33 @@ namespace Ashtray.Wrapper
         /// <summary>
         /// Построение модели пепельницы.
         /// </summary>
-        // TODO: Разделить логику с враппером
-        public void BuildAshtray(int bottomThickness, int height, int lowerDiameter, int upperDiameter, int wallThickness)
-       {
-            KompasWrapper kompasWrapper = new KompasWrapper();
+        // TODO: Разделить логику с враппером   ЕСТЬ
+        public void BuildAshtray(int bottomThickness, int height, int lowerDiameter, int upperDiameter, int wallThickness, string legName)
+        {
+            var kompasWrapper = new KompasWrapper();
             kompasWrapper.StartKompas();
             kompasWrapper.CreateFile();
-            kompasWrapper.CreateDetail(bottomThickness, height, lowerDiameter, upperDiameter, wallThickness);
-            kompasWrapper.FilletPlate(bottomThickness, lowerDiameter);
-            kompasWrapper.CreateArray(height);
-       }
+            // Создание эскиза пепельницы.
+            kompasWrapper.CreateCurve(wallThickness, upperDiameter, height, bottomThickness, lowerDiameter);
+            // Создание скругления на пепельнице.
+            kompasWrapper.ChooseFillet(bottomThickness, lowerDiameter);
+            // Создание отверстий на пепельнице.
+            kompasWrapper.CreateHoles(height);
+            // Выбор ножек.
+            if (!legName.Equals("Нет"))
+            {
+                if (legName.Equals("Круглые"))
+                {
+                    kompasWrapper.CreateHemispheres();
+                } else if (legName.Equals("Прямоугольные"))
+                {
+                    kompasWrapper.CreateParallelepipeds(lowerDiameter, wallThickness);
+                }
+                else
+                {
+                    kompasWrapper.CreateCylinders(lowerDiameter, wallThickness);
+                }
+            }
+        }
     }
 }
