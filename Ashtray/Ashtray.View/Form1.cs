@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Ashtray.Model;
 using Ashtray.Wrapper;
 // TODO: динамически изменять значения в label
-// TODO: Падает при вводе некорректных значений в комбобокс ЕСТЬ
 
 namespace Ashtray.View
 {
