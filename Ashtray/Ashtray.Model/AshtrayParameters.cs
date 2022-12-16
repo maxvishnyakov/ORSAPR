@@ -6,7 +6,6 @@ namespace Ashtray.Model
     /// <summary>
     /// Класс пепельницы
     /// </summary>
-    // TODO: Переименовать AshtrayParameters    ЕСТЬ
     public class AshtrayParameters
     {
         /// <summary>
@@ -50,11 +49,11 @@ namespace Ashtray.Model
         /// <param name="errorMessage">Сообщение об ошибке</param>
         private void CheckParameterEmpty(string textParameter, ParameterType parameterType, string errorMessage)
         {
-            // TODO: проверка на парс try/catch ЕСТЬ
             try
             {
                 Parameters[parameterType].Value = int.Parse(textParameter);
             }
+            // TODO: Конкретное исключение
             catch
             {
                 Errors.Add(parameterType, errorMessage + " не должно быть пустым");

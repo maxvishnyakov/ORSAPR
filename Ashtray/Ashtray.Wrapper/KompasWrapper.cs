@@ -108,7 +108,6 @@ namespace Ashtray.Wrapper
         /// <summary>
         /// Создание кривой.
         /// </summary>
-        // TODO: параметры ЕСТЬ
         /// <param name="wallThickness">Толщина стенки.</param>
         /// <param name="upperDiameter">Диаметр верхней окружности.</param>
         /// <param name="height">Высота.</param>

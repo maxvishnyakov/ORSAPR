@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Ashtray.Model;
 using Ashtray.Wrapper;
 // TODO: динамически изменять значения в label
+// TODO: Падает при вводе некорректных значений в комбобокс
 
 namespace Ashtray.View
 {
@@ -17,8 +18,7 @@ namespace Ashtray.View
         /// Словарь Тип параметра-TextBox.
         /// </summary>
         private readonly Dictionary<ParameterType, TextBox> _parameterToTextBox;
-
-        // TODO: XML    ЕСТЬ
+        
         /// <summary>
         /// Параметры пепельницы.
         /// </summary>
@@ -105,7 +105,6 @@ namespace Ashtray.View
             var counter = 0;
             foreach (var keyValue in _parameterToTextBox)
             {
-                // TODO: Можно под одно условие ЕСТЬ
                 if (keyValue.Value.Text == string.Empty || _ashtrayParameters.Errors.ContainsKey(keyValue.Key))
                 {
                     if (_ashtrayParameters.Errors[keyValue.Key] != string.Empty)
@@ -152,7 +151,6 @@ namespace Ashtray.View
                     var message = string.Empty;
                     foreach (var keyValue in _ashtrayParameters.Errors)
                     {
-                        // TODO: Селать в одну строку $ ЕСТЬ
                         message += $"• {keyValue.Value} \n\n";
                     }
 
