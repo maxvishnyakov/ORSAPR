@@ -83,9 +83,9 @@ namespace Ashtray.View
             // legsComboBox
             // 
             this.legsComboBox.FormattingEnabled = true;
-            this.legsComboBox.Location = new System.Drawing.Point(408, 295);
+            this.legsComboBox.Location = new System.Drawing.Point(382, 295);
             this.legsComboBox.Name = "legsComboBox";
-            this.legsComboBox.Size = new System.Drawing.Size(164, 33);
+            this.legsComboBox.Size = new System.Drawing.Size(190, 33);
             this.legsComboBox.TabIndex = 18;
             // 
             // label6
@@ -144,41 +144,41 @@ namespace Ashtray.View
             // 
             // WallThicknessTextBox
             // 
-            this.WallThicknessTextBox.Location = new System.Drawing.Point(408, 245);
+            this.WallThicknessTextBox.Location = new System.Drawing.Point(382, 245);
             this.WallThicknessTextBox.Name = "WallThicknessTextBox";
-            this.WallThicknessTextBox.Size = new System.Drawing.Size(164, 30);
+            this.WallThicknessTextBox.Size = new System.Drawing.Size(190, 30);
             this.WallThicknessTextBox.TabIndex = 10;
             this.WallThicknessTextBox.TextChanged += new System.EventHandler(this.FindError);
             // 
             // HeightTextBox
             // 
-            this.HeightTextBox.Location = new System.Drawing.Point(408, 95);
+            this.HeightTextBox.Location = new System.Drawing.Point(382, 95);
             this.HeightTextBox.Name = "HeightTextBox";
-            this.HeightTextBox.Size = new System.Drawing.Size(164, 30);
+            this.HeightTextBox.Size = new System.Drawing.Size(190, 30);
             this.HeightTextBox.TabIndex = 9;
             this.HeightTextBox.TextChanged += new System.EventHandler(this.FindError);
             // 
             // BottomThicknessTextBox
             // 
-            this.BottomThicknessTextBox.Location = new System.Drawing.Point(408, 195);
+            this.BottomThicknessTextBox.Location = new System.Drawing.Point(382, 195);
             this.BottomThicknessTextBox.Name = "BottomThicknessTextBox";
-            this.BottomThicknessTextBox.Size = new System.Drawing.Size(164, 30);
+            this.BottomThicknessTextBox.Size = new System.Drawing.Size(190, 30);
             this.BottomThicknessTextBox.TabIndex = 8;
             this.BottomThicknessTextBox.TextChanged += new System.EventHandler(this.FindError);
             // 
             // LowerDiametrTextBox
             // 
-            this.LowerDiametrTextBox.Location = new System.Drawing.Point(408, 145);
+            this.LowerDiametrTextBox.Location = new System.Drawing.Point(382, 145);
             this.LowerDiametrTextBox.Name = "LowerDiametrTextBox";
-            this.LowerDiametrTextBox.Size = new System.Drawing.Size(164, 30);
+            this.LowerDiametrTextBox.Size = new System.Drawing.Size(190, 30);
             this.LowerDiametrTextBox.TabIndex = 7;
             this.LowerDiametrTextBox.TextChanged += new System.EventHandler(this.FindError);
             // 
             // UpperDiametrTextBox
             // 
-            this.UpperDiametrTextBox.Location = new System.Drawing.Point(408, 45);
+            this.UpperDiametrTextBox.Location = new System.Drawing.Point(382, 45);
             this.UpperDiametrTextBox.Name = "UpperDiametrTextBox";
-            this.UpperDiametrTextBox.Size = new System.Drawing.Size(164, 30);
+            this.UpperDiametrTextBox.Size = new System.Drawing.Size(190, 30);
             this.UpperDiametrTextBox.TabIndex = 6;
             this.UpperDiametrTextBox.TextChanged += new System.EventHandler(this.FindError);
             // 

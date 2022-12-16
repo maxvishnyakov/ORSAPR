@@ -212,11 +212,11 @@ namespace Ashtray.Wrapper
             int offset = (lowerDiameter - wallThickness) / 2 - 10;
             double[,] cubeVertexes =
             {
-                {offset-5, offset-5 },
-                { offset, offset-5 },
+                {offset - 5, offset - 5 },
+                { offset, offset - 5 },
                 {offset, offset },
-                { offset-5,offset },
-                { offset-5, offset-5 }
+                { offset - 5,offset },
+                { offset - 5, offset - 5 }
             };
             CreateSketch((short)Obj3dType.o3d_planeXOZ);
             ksDocument2D sketchEdit = _sketchDefinition.BeginEdit();
@@ -266,7 +266,7 @@ namespace Ashtray.Wrapper
         }
 
         /// <summary>
-        /// Построение сфер.
+        /// Построение полусфер.
         /// </summary>
         public void CreateHemispheres()
         {

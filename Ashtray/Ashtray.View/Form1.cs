@@ -67,8 +67,8 @@ namespace Ashtray.View
             WallThicknessTextBox.Text = _ashtrayParameters.Parameters[ParameterType.WallThickness].Value.ToString();
 
             legsComboBox.Items.Add("Нет");
-            legsComboBox.Items.Add("Прямоугольные");
             legsComboBox.Items.Add("Круглые");
+            legsComboBox.Items.Add("Квадратные");
             legsComboBox.Items.Add("Цилиндрические");
             legsComboBox.SelectedItem = legsComboBox.Items[0];
         }

@@ -28,7 +28,8 @@ namespace Ashtray.Wrapper
                 if (legName.Equals("Круглые"))
                 {
                     kompasWrapper.CreateHemispheres();
-                } else if (legName.Equals("Прямоугольные"))
+                } 
+                else if (legName.Equals("Квадратные"))
                 {
                     kompasWrapper.CreateParallelepipeds(lowerDiameter, wallThickness);
                 }
