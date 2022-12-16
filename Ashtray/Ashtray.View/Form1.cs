@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Ashtray.Model;
 using Ashtray.Wrapper;
 // TODO: динамически изменять значения в label
-// TODO: Падает при вводе некорректных значений в комбобокс
+// TODO: Падает при вводе некорректных значений в комбобокс ЕСТЬ
 
 namespace Ashtray.View
 {
@@ -163,7 +163,8 @@ namespace Ashtray.View
                         _ashtrayParameters.Parameters[ParameterType.Height].Value,
                         _ashtrayParameters.Parameters[ParameterType.LowerDiameter].Value,
                         _ashtrayParameters.Parameters[ParameterType.UpperDiameter].Value,
-                        _ashtrayParameters.Parameters[ParameterType.WallThickness].Value, legsComboBox.SelectedItem.ToString());
+                        _ashtrayParameters.Parameters[ParameterType.WallThickness].Value,
+                        legsComboBox.SelectedItem.ToString());
                 }
             }
             else
@@ -183,6 +184,10 @@ namespace Ashtray.View
                                       + " - " + (_ashtrayParameters.Parameters[ParameterType.LowerDiameter].Value + 30).ToString() + " мм.";
             HeightLabel.Text = (_ashtrayParameters.Parameters[ParameterType.BottomThickness].Value * 5).ToString()
                                           + " - " + (_ashtrayParameters.Parameters[ParameterType.BottomThickness].Value * 6).ToString() + " мм.";
+            LowerDiameterLabel.Text = (_ashtrayParameters.Parameters[ParameterType.UpperDiameter].Value - 30).ToString()
+                                  + " - " + (_ashtrayParameters.Parameters[ParameterType.UpperDiameter].Value - 20).ToString() + " мм.";
+            BottomThicknessLabel.Text = (_ashtrayParameters.Parameters[ParameterType.Height].Value / 6).ToString()
+                               + " - " + (_ashtrayParameters.Parameters[ParameterType.Height].Value / 5).ToString() + " мм.";
         }
     }
 }

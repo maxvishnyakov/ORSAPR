@@ -53,8 +53,8 @@ namespace Ashtray.Model
             {
                 Parameters[parameterType].Value = int.Parse(textParameter);
             }
-            // TODO: Конкретное исключение
-            catch
+            // TODO: Конкретное исключение ЕСТЬ
+            catch (FormatException ex)
             {
                 Errors.Add(parameterType, errorMessage + " не должно быть пустым");
             }

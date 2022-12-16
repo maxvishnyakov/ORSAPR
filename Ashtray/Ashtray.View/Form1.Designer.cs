@@ -82,6 +82,7 @@ namespace Ashtray.View
             // 
             // legsComboBox
             // 
+            this.legsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.legsComboBox.FormattingEnabled = true;
             this.legsComboBox.Location = new System.Drawing.Point(382, 295);
             this.legsComboBox.Name = "legsComboBox";
