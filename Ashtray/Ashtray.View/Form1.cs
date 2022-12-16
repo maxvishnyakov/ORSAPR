@@ -185,8 +185,9 @@ namespace Ashtray.View
                                           + " - " + (_ashtrayParameters.Parameters[ParameterType.BottomThickness].Value * 6).ToString() + " мм.";
             LowerDiameterLabel.Text = (_ashtrayParameters.Parameters[ParameterType.UpperDiameter].Value - 30).ToString()
                                   + " - " + (_ashtrayParameters.Parameters[ParameterType.UpperDiameter].Value - 20).ToString() + " мм.";
-            BottomThicknessLabel.Text = (_ashtrayParameters.Parameters[ParameterType.Height].Value / 6).ToString()
-                               + " - " + (_ashtrayParameters.Parameters[ParameterType.Height].Value / 5).ToString() + " мм.";
+            var from = _ashtrayParameters.Parameters[ParameterType.Height].Value / 6;
+            var to = _ashtrayParameters.Parameters[ParameterType.Height].Value / 5;
+            BottomThicknessLabel.Text = from.ToString() + " - " + to.ToString() + " мм.";
         }
     }
 }
