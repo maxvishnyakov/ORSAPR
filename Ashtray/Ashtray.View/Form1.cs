@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using Ashtray.Model;
 using Ashtray.Wrapper;
-// TODO: динамически изменять значения в label
+// TODO: динамически изменять значения в label ЕСТЬ
 
 namespace Ashtray.View
 {
